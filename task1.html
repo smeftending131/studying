@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script>
+			let timer
+			function draw() {
+			  const canvas = document.getElementById('canvas')
+			  const ctx = canvas.getContext('2d')
+			  const x = Math.floor(800 * Math.random())
+			  const y = Math.floor(600 * Math.random())
+			  const r = document.getElementById('r').checked ? Math.floor(256 * Math.random()) : 0
+			  const g = document.getElementById('g').checked ? Math.floor(256 * Math.random()) : 0
+			  const b = document.getElementById('b').checked ? Math.floor(256 * Math.random()) : 0
+			  ctx.fillStyle = 'rgb(' + r + ',' + g + ',' + b + ')'
+			  ctx.fillRect(x, y, 30, 30)
+			}
+			function start() {
+			  clearInterval(timer)
+			  const speed = parseInt(document.getElementById('speed').value) || 300
+			  timer = setInterval(draw, speed)
+			}
+		</script>
+	</head>
+	<body onload="start()">
+		R <input type="checkbox" id="r" checked>
+		G <input type="checkbox" id="g" checked>
+		B <input type="checkbox" id="b" checked>
+		<input type="number" id="speed" value="300" onchange="start()">
+		<canvas id="canvas" width="800" height="600"></canvas>
+	</body>
+</html>

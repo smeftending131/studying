@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script>
+			function draw() {
+			  const canvas = document.getElementById('canvas')
+			  const ctx = canvas.getContext('2d')
+			  ctx.clearRect(0,0,canvas.width,canvas.height)
+			  const n = parseInt(document.getElementById('sides').value) || 3
+			  const stroke = document.getElementById('stroke').value
+			  const fill = document.getElementById('fill').value
+			  const doFill = document.getElementById('doFill').checked
+			  const cx = canvas.width/2, cy = canvas.height/2, r = 150
+			  ctx.beginPath()
+			  for (let i=0;i<n;i++) {
+				const angle = (2*Math.PI/n)*i - Math.PI/2
+				const x = cx + r*Math.cos(angle)
+				const y = cy + r*Math.sin(angle)
+				if (i==0) ctx.moveTo(x,y)
+				else ctx.lineTo(x,y)
+			  }
+			  ctx.closePath()
+			  ctx.strokeStyle = stroke
+			  ctx.stroke()
+			  if (doFill) {
+				ctx.fillStyle = fill
+				ctx.fill()
+			  }
+			}
+		</script>
+	</head>
+	<body onload="draw()">
+		Цвет контура <input type="color" id="stroke" value="#000000" onchange="draw()">
+		Заливка <input type="checkbox" id="doFill" onchange="draw()">
+		Цвет заливки <input type="color" id="fill" value="#ff0000" onchange="draw()">
+		Количество углов <input type="number" id="sides" value="5" min="3" onchange="draw()">
+		<canvas id="canvas" width="500" height="500"></canvas>
+	</body>
+</html>
