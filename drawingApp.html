@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Рисование линий</title>
+</head>
+<body>
+    <canvas id="canvas" width="400" height="200" style="border: 1px solid black;"></canvas>
+    <div>
+        <p>Толщина линии (нажмите клавишу): 1 - тонкая, 2 - нормальная, 3 - толстая</p>
+        <p>Текущая толщина: <span id="currentWidth">2</span></p>
+    </div>
+
+    <script>
+        var canvas;
+        var ctx;
+        var isDown = false;
+        var lineWidth = 2;
+
+        function init() {
+            canvas = document.getElementById('canvas');
+            ctx = canvas.getContext('2d');
+            
+            document.addEventListener("mouseup", handleUp);
+            document.addEventListener("mousedown", handleDown);
+            document.addEventListener("mousemove", handleMoved);
+            document.addEventListener("keydown", handleKeyDown);
+            
+            ctx.strokeRect(0, 0, 400, 200);
+        }
+
+        function handleDown(event) {
+            isDown = true;
+            
+            var rect = canvas.getBoundingClientRect();
+            var mouseX = event.clientX - rect.left;
+            var mouseY = event.clientY - rect.top;
+            
+            drawLine(0, 0, mouseX, mouseY);
+        }
+
+        function handleUp(event) {
+            isDown = false;
+        }
+
+        function handleMoved(event) {
+            if (isDown) {
+
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.strokeRect(0, 0, 400, 200);
+                
+                var rect = canvas.getBoundingClientRect();
+                var mouseX = event.clientX - rect.left;
+                var mouseY = event.clientY - rect.top;
+                
+                drawLine(0, 0, mouseX, mouseY);
+            }
+        }
+
+        function handleKeyDown(event) {
+            if (event.key === '1') {
+                lineWidth = 1;
+                document.getElementById('currentWidth').textContent = '1 (тонкая)';
+            } else if (event.key === '2') {
+                lineWidth = 2;
+                document.getElementById('currentWidth').textContent = '2 (нормальная)';
+            } else if (event.key === '3') {
+                lineWidth = 3;
+                document.getElementById('currentWidth').textContent = '3 (толстая)';
+            }
+        }
+
+        function drawLine(startX, startY, endX, endY) {
+            ctx.beginPath();
+            ctx.moveTo(startX, startY);
+            ctx.lineTo(endX, endY);
+            
+            if (lineWidth === 1) {
+                ctx.lineWidth = 1;
+            } else if (lineWidth === 2) {
+                ctx.lineWidth = 3;
+            } else if (lineWidth === 3) {
+                ctx.lineWidth = 6;
+            }
+            
+            ctx.strokeStyle = 'red';
+            ctx.stroke();
+        }
+
+        window.onload = init;
+    </script>
+</body>
+</html>
