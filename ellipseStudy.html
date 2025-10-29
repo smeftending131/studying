@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Эллипс</title>
+</head>
+<body>
+    <div class="controls">
+        <div class="control-group">
+            <label for="radiusX">Радиус по X:</label>
+            <input type="number" id="radiusX" value="100" min="1" max="300">
+        </div>
+        <div class="control-group">
+            <label for="radiusY">Радиус по Y:</label>
+            <input type="number" id="radiusY" value="80" min="1" max="300">
+        </div>
+        <div class="control-group">
+            <label for="lineWidth">Толщина контура:</label>
+            <input type="number" id="lineWidth" value="2" min="1" max="20">
+        </div>
+        <div class="control-group">
+            <label for="strokeColor">Цвет контура:</label>
+            <input type="color" id="strokeColor" value="#000000">
+        </div>
+        <div class="control-group">
+            <label for="fillColor">Цвет заливки:</label>
+            <input type="color" id="fillColor" value="#ff0000">
+        </div>
+        <div class="control-group">
+            <label for="fillCheckbox">Заливка:</label>
+            <input type="checkbox" id="fillCheckbox" checked>
+        </div>
+    </div>
+    
+    <canvas id="ellipseCanvas" width="600" height="400"></canvas>
+
+    <script>
+        const canvas = document.getElementById('ellipseCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        const radiusXInput = document.getElementById('radiusX');
+        const radiusYInput = document.getElementById('radiusY');
+        const lineWidthInput = document.getElementById('lineWidth');
+        const strokeColorInput = document.getElementById('strokeColor');
+        const fillColorInput = document.getElementById('fillColor');
+        const fillCheckbox = document.getElementById('fillCheckbox');
+        
+        function drawEllipse() {
+            const radiusX = parseInt(radiusXInput.value);
+            const radiusY = parseInt(radiusYInput.value);
+            const lineWidth = parseInt(lineWidthInput.value);
+            const strokeColor = strokeColorInput.value;
+            const fillColor = fillColorInput.value;
+            const hasFill = fillCheckbox.checked;
+            
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            
+            ctx.beginPath();
+            ctx.ellipse(centerX, centerY, radiusX, radiusY, 0, 0, 2 * Math.PI);
+            
+            if (hasFill) {
+                ctx.fillStyle = fillColor;
+                ctx.fill();
+            }
+            
+            ctx.lineWidth = lineWidth;
+            ctx.strokeStyle = strokeColor;
+            ctx.stroke();
+        }
+        
+        radiusXInput.addEventListener('change', drawEllipse);
+        radiusYInput.addEventListener('change', drawEllipse);
+        lineWidthInput.addEventListener('change', drawEllipse);
+        strokeColorInput.addEventListener('change', drawEllipse);
+        fillColorInput.addEventListener('change', drawEllipse);
+        fillCheckbox.addEventListener('change', drawEllipse);
+        
+        drawEllipse();
+    </script>
+</body>
+</html>
