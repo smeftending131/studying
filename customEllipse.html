@@ -1,0 +1,59 @@
+<canvas id="canvas" width="800" height="600"></canvas>
+<div>
+    <label>a: <input type="number" id="a" value="1" step="0.1"></label>
+    <label>b: <input type="number" id="b" value="0" step="0.1"></label>
+    <label>c: <input type="number" id="c" value="0" step="0.1"></label>
+    <label>d: <input type="number" id="d" value="1" step="0.1"></label>
+    <label>dx: <input type="number" id="dx" value="0" step="1"></label>
+    <label>dy: <input type="number" id="dy" value="0" step="1"></label>
+    <label>Радиус: <input type="number" id="radius" value="100" step="10"></label>
+</div>
+
+<script>
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+const inputs = ['a', 'b', 'c', 'd', 'dx', 'dy', 'radius'].reduce((acc, id) => {
+    acc[id] = document.getElementById(id);
+    return acc;
+}, {});
+
+function drawSpiral() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    const a = parseFloat(inputs.a.value);
+    const b = parseFloat(inputs.b.value);
+    const c = parseFloat(inputs.c.value);
+    const d = parseFloat(inputs.d.value);
+    const dx = parseFloat(inputs.dx.value);
+    const dy = parseFloat(inputs.dy.value);
+    const radius = parseFloat(inputs.radius.value);
+    
+    ctx.setTransform(a, b, c, d, dx, dy);
+    
+    ctx.beginPath();
+    const centerX = canvas.width / 2;
+    const centerY = canvas.height / 2;
+    
+    for (let angle = 0; angle < 10 * Math.PI; angle += 0.1) {
+        const r = radius * angle / (10 * Math.PI);
+        const x = centerX + r * Math.cos(angle);
+        const y = centerY + r * Math.sin(angle);
+        
+        if (angle === 0) {
+            ctx.moveTo(x, y);
+        } else {
+            ctx.lineTo(x, y);
+        }
+    }
+    
+    ctx.strokeStyle = 'blue';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+}
+
+Object.values(inputs).forEach(input => {
+    input.addEventListener('input', drawSpiral);
+});
+
+drawSpiral();
+</script>
