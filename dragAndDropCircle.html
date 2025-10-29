@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        canvas { border: 1px solid black; }
+    </style>
+</head>
+<body>
+    <canvas id="myCanvas" width="800" height="600"></canvas>
+
+    <script>
+        const canvas = document.getElementById('myCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        let circle = {
+            x: 400,
+            y: 300,
+            radius: 50,
+            color: 'blue',
+            isDragging: false
+        };
+        
+        const colors = ['blue', 'red', 'green'];
+        
+        function drawCircle() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.beginPath();
+            ctx.arc(circle.x, circle.y, circle.radius, 0, Math.PI * 2);
+            ctx.fillStyle = circle.color;
+            ctx.fill();
+            ctx.closePath();
+        }
+        
+        function getDistance(x1, y1, x2, y2) {
+            return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+        }
+        
+        canvas.addEventListener('mousedown', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            const mouseX = e.clientX - rect.left;
+            const mouseY = e.clientY - rect.top;
+            
+            if (getDistance(mouseX, mouseY, circle.x, circle.y) <= circle.radius) {
+                circle.isDragging = true;
+                circle.color = 'gray';
+                drawCircle();
+            }
+        });
+        
+        canvas.addEventListener('mousemove', (e) => {
+            if (circle.isDragging) {
+                const rect = canvas.getBoundingClientRect();
+                let newX = e.clientX - rect.left;
+                let newY = e.clientY - rect.top;
+                
+                newX = Math.max(circle.radius, Math.min(canvas.width - circle.radius, newX));
+                newY = Math.max(circle.radius, Math.min(canvas.height - circle.radius, newY));
+                
+                circle.x = newX;
+                circle.y = newY;
+                drawCircle();
+            }
+        });
+        
+        canvas.addEventListener('mouseup', () => {
+            if (circle.isDragging) {
+                circle.isDragging = false;
+                const currentColorIndex = colors.indexOf(circle.color === 'gray' ? 'blue' : circle.color);
+                circle.color = colors[currentColorIndex] || 'blue';
+                drawCircle();
+            }
+        });
+        
+        document.addEventListener('keydown', (e) => {
+            if (e.key >= '1' && e.key <= '3' && !circle.isDragging) {
+                const colorIndex = parseInt(e.key) - 1;
+                circle.color = colors[colorIndex];
+                drawCircle();
+            }
+        });
+        
+        drawCircle();
+    </script>
+</body>
+</html>
