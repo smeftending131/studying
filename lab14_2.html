@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="jquery-3.5.1.js"></script>
+</head>
+<body>
+    <input type="button" id="btn1" value="Скрыть текст"/>
+    <div id="txt">
+        Идти ему было немного; он даже знал,
+        сколько шагов от ворот его дома: ровно семьсот три;
+        Как-то раз он их сосчитал, когда уж очень размечтал
+        В то время он и сам еще не верил этим мечтам своим
+        но соблазнительнюю дерзостью.
+    </div>
+
+    <script>
+        $(document).ready(function(){
+            $("#btn1").click(function(){
+                $("#txt").slideUp(3000);
+                alert("Текст скрыт");
+            });
+        });
+    </script>
+</body>
+</html>
