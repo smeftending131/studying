@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="jQuery-3.5.1.js"></script>
+    <style>
+        #rectangle {
+            width: 100px;
+            height: 100px;
+            background-color: red;
+            position: absolute;
+            top: 100px;
+            left: 100px;
+        }
+    </style>
+</head>
+<body>
+    <select id="color">
+        <option value="red">Красный</option>
+        <option value="blue">Синий</option>
+        <option value="green">Зеленый</option>
+        <option value="yellow">Желтый</option>
+    </select>
+
+    <select id="speed">
+        <option value="500">Медленно</option>
+        <option value="300">Средне</option>
+        <option value="100">Быстро</option>
+    </select>
+
+    <button id="start">Старт</button>
+
+    <div id="rectangle"></div>
+
+    <script>
+        $(document).ready(function() {
+            $('#start').click(function() {
+                var color = $('#color').val();
+                var speed = parseInt($('#speed').val());
+                
+                $('#rectangle')
+                    .css('background-color', color)
+                    .animate({
+                        opacity: 0.3,
+                        width: '200px',
+                        height: '200px',
+                        left: '300px',
+                        top: '200px'
+                    }, speed)
+                    .animate({
+                        opacity: 1,
+                        width: '100px',
+                        height: '100px',
+                        left: '100px',
+                        top: '100px'
+                    }, speed);
+            });
+        });
+    </script>
+</body>
+</html>
