@@ -1,31 +1,76 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<script>
-			let timer
-			function draw() {
-			  const canvas = document.getElementById('canvas')
-			  const ctx = canvas.getContext('2d')
-			  const x = Math.floor(800 * Math.random())
-			  const y = Math.floor(600 * Math.random())
-			  const r = document.getElementById('r').checked ? Math.floor(256 * Math.random()) : 0
-			  const g = document.getElementById('g').checked ? Math.floor(256 * Math.random()) : 0
-			  const b = document.getElementById('b').checked ? Math.floor(256 * Math.random()) : 0
-			  ctx.fillStyle = 'rgb(' + r + ',' + g + ',' + b + ')'
-			  ctx.fillRect(x, y, 30, 30)
-			}
-			function start() {
-			  clearInterval(timer)
-			  const speed = parseInt(document.getElementById('speed').value) || 300
-			  timer = setInterval(draw, speed)
-			}
-		</script>
-	</head>
-	<body onload="start()">
-		R <input type="checkbox" id="r" checked>
-		G <input type="checkbox" id="g" checked>
-		B <input type="checkbox" id="b" checked>
-		<input type="number" id="speed" value="300" onchange="start()">
-		<canvas id="canvas" width="800" height="600"></canvas>
-	</body>
+<head>
+    <script src="jQuery-3.5.1.js"></script>
+</head>
+<body>
+    <select id="continent">
+        <option value="northAmerica">Северная Америка</option>
+        <option value="southAmerica">Южная Америка</option>
+        <option value="europe">Европа</option>
+    </select>
+
+    <select id="animation">
+        <option value="hide">Hide/Show</option>
+        <option value="fade">Fade</option>
+        <option value="slide">Slide</option>
+    </select>
+
+    <button id="toggle">Переключить</button>
+
+    <ul id="countries">
+        <li class="northAmerica">США</li>
+        <li class="northAmerica">Канада</li>
+        <li class="northAmerica">Мексика</li>
+        <li class="northAmerica">Гватемала</li>
+        <li class="northAmerica">Куба</li>
+        <li class="northAmerica">Гаити</li>
+        <li class="northAmerica">Доминикана</li>
+        <li class="southAmerica">Бразилия</li>
+        <li class="southAmerica">Аргентина</li>
+        <li class="southAmerica">Колумбия</li>
+        <li class="southAmerica">Перу</li>
+        <li class="southAmerica">Венесуэла</li>
+        <li class="southAmerica">Чили</li>
+        <li class="southAmerica">Эквадор</li>
+        <li class="europe">Россия</li>
+        <li class="europe">Германия</li>
+        <li class="europe">Франция</li>
+        <li class="europe">Великобритания</li>
+        <li class="europe">Италия</li>
+        <li class="europe">Испания</li>
+        <li class="europe">Украина</li>
+        <li class="europe">Польша</li>
+    </ul>
+
+    <script>
+        $(document).ready(function() {
+            $('#toggle').click(function() {
+                var continent = $('#continent').val();
+                var animation = $('#animation').val();
+                var countries = $('.' + continent);
+				// Преобразуется в (например): $('.northAmerica')
+				// для выбора всех элементов по классу
+
+                if (countries.is(':visible')) {
+                    if (animation === 'fade') {
+                        countries.fadeOut();
+                    } else if (animation === 'slide') {
+                        countries.slideUp();
+                    } else {
+                        countries.hide();
+                    }
+                } else {
+                    if (animation === 'fade') {
+                        countries.fadeIn();
+                    } else if (animation === 'slide') {
+                        countries.slideDown();
+                    } else {
+                        countries.show();
+                    }
+                }
+            });
+        });
+    </script>
+</body>
 </html>
